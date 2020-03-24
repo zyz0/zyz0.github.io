@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Demo</title>
+</head>
+<body>
+    <section>
+        <section>
+            <div id="pageDemoContent" class="content"></div>
+        </section>
+        <section>
+            <div class="page">
+                <button id="prevBtn" onclick="prev()">prev</button>
+                <button id="nextBtn" onclick="next()">next</button>
+            </div>
+        </section>
+    </section>
+    <script>
+        let presentPageNum = 1; // 当前第几页
+        let contentData = ["A", "B", "C", "D", "E", "F"]; // 初始化模拟数据
+        document.getElementById("pageDemoContent").innerText = contentData[0]; // 初始化第一页数据
+
+        function prev(params) {
+            if (presentPageNum == 1) {
+                cannotClick("prevBtn");
+                return;
+            }
+            canClick("nextBtn");
+            presentPageNum = presentPageNum - 1;
+            document.getElementById("pageDemoContent").innerText = contentData[presentPageNum-1];
+        }
+
+        function next(params) {
+            canClick("prevBtn");
+            presentPageNum = presentPageNum + 1;
+            document.getElementById("pageDemoContent").innerText = contentData[presentPageNum-1];
+            if (presentPageNum > (contentData.length - 1) ) {
+                cannotClick("nextBtn");
+                return;
+            }
+        }
+
+        function cannotClick(btnId) {
+            document.getElementById(btnId).setAttribute("disabled", "disabled");
+        }
+
+        function canClick(btnId) {
+            if (document.getElementById(btnId).getAttribute("disabled") == "disabled") {
+                document.getElementById(btnId).removeAttribute("disabled");
+            }
+        }
+    </script>
+</body>
+</html>
