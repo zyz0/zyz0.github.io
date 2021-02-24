@@ -1,0 +1,140 @@
+<html>
+<head>
+<script type="application/javascript" src="https://unpkg.com/callapp-lib@3.1.2/dist/index.umd.js"></script>
+<style>
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>
+</head>
+<body>
+
+    <div>
+      <button
+        onclick="alert(ua)">
+        ua
+      </button>
+      <button
+        onclick="evoke('zhihu://')">
+        schema - iframe
+      </button>
+      <button
+        onclick="evokeByLocation('zhihu://')">
+        schema - location
+      </button>
+      <button
+        onclick="evokeByTagA('zhihu://')">
+        schema - A Tag
+      </button>
+      <button
+        onclick="evokeByLocation(libGenerateIntent())">
+        intent - location
+      </button>
+      <button
+        onclick="evokeByLocation('https://flash-link.youku.com')">
+        universal-link
+      </button>
+      <button
+        onclick="libOpen()">
+        callapp-lib 唤端
+      </button>
+    </div>
+
+
+<script type="application/javascript">
+const option = {
+  scheme: {
+    protocol: 'zhihu',
+  },
+  intent: {
+    package: 'com.zhihu.android',
+    scheme: 'zhihu',
+  },
+  universal: {
+    host: 'oia.zhihu.com/question/270839820/answer/477722658',
+    pathKey: 'action',
+  },
+  appstore: 'https://itunes.apple.com/cn/app/id432274380',
+  yingyongbao: '//a.app.qq.com/o/simple.jsp?pkgname=com.zhihu.android',
+  fallback: 'https://oia.zhihu.com/',
+  timeout: 2000,
+};
+const lib = new CallApp(option);
+
+const ua = navigator.userAgent || '';
+
+function evoke(url: string) {
+  var iFrame;
+
+  iFrame = document.createElement('iframe');
+  iFrame.setAttribute('src', url);
+  iFrame.setAttribute('style', 'display:none;');
+  iFrame.setAttribute('height', '0px');
+  iFrame.setAttribute('width', '0px');
+  iFrame.setAttribute('frameborder', '0');
+  document.body.appendChild(iFrame);
+
+  iFrame = null;
+}
+
+function evokeByLocation(uri) {
+  window.location.href = uri;
+}
+
+function evokeByTagA(uri) {
+  const tagA = document.createElement('a');
+
+  tagA.setAttribute('href', uri);
+  tagA.style.display = 'none';
+  document.body.append(tagA);
+
+  tagA.click();
+}
+
+function libOpen(uri) {
+  lib.open({ path: '' });
+}
+
+function libGenerateIntent(uri) {
+  lib.generateIntent({ path: '' })
+}
+
+
+</script>
+</body>
+</html>
